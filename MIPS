@@ -1,0 +1,41 @@
+# Task:- Implement sorting of n elements stored in a array using MIPS Assembly language Programming
+#  -> You may assume the size of the array given in a variable
+
+# slt instruction....  slt Rd,Rs,Rt   if [Rs] < [Rt] then [Rd]=1 otherwise [Rs]=0
+
+.data 
+values: .word 10,15,3,5,33       # variable 'values' contains numbers to be sorted
+n: .word 5                       # variable 'n' contains size of array(number of numbers to be sorted)
+
+.text
+
+main:   la $v0,values            # Address of first number of array is given to v0
+	lw $v1,n                       # No. of nos given to $v1
+	
+ 
+ loop1: lw $a2,0($v0)
+	addi $v1,$v1,-1	
+	beqz $v1,exit	
+	move $a0,$v1                 	# No. of nos copied to a0(for inner loop)
+	move $t1,$v0
+	addi $v0,$v0,4                # Addresses incremented to point to next number
+	move $a1,$v0                  # Address copied to a1(for inner loop i.e loop2)
+	
+loop2:  lw $a3,0($a1)
+	slt $t0,$a2,$a3
+	beqz $a0,loop1
+	addi $a0,$a0,-1
+	beqz $t0,swap
+
+ continue: addi $a1,$a1,4
+	   j loop2
+
+ swap: 	sw $a3,0($t1)
+	sw $a2,0($a1)
+	lw $a2,0($t1)
+	j continue
+
+exit:
+
+li $v0,10
+syscall
