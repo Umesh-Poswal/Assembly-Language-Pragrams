@@ -1,0 +1,20 @@
+; reverse a binary string
+
+start: nop
+lda 1
+mov b,a
+mov e,b
+mvi c,8 ; put 8 in memory loc 2
+
+reverse: rlc
+	mov b,a
+	mov a,d
+	rar
+	mov d,a
+	mov a,b
+	dcr c
+	jnz reverse
+	mov a,d
+	sta 3
+
+hlt
