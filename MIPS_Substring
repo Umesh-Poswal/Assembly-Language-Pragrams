@@ -1,0 +1,41 @@
+# 2. Assume a null terminated string is stored in a memory location. Write an MIPS assembly language program
+# that will return the base address of a query substring(first occurance) passed as a parameter to the function.
+# If the substring doesn't exist, it will return null or zero(0).
+
+.data 
+string: .asciiz "kamna"
+substring: .asciiz "mna"
+.text
+
+main: la $a0,string                       # Load address of string
+	la $a1,substring                        # Load address of substring
+	j check
+
+  check: move $t0,$a1                     # mpoved to t0 to initialize substring(if required)
+	loop1: 
+	lb $t1, 0($a1)                          # Loading substring's byte in t1
+	 beqz $t1,exit                          # check for null value
+         
+	 
+	loop2: 
+		lb $t2,0($a0)
+		beqz $t2,exit1
+		addi $a0,$a0,1
+		bne $t1,$t2,dodo                    # if values not equal jump to dodo
+		addi $a1,$a1,1                      # Increasing substring pointer
+		j loop1
+
+       dodo:  bne $a1,$t0,didi         # If char wasn't first char of substring
+	                                     # you need to decrese add. of string's char
+	        j loop1
+
+ 	didi: addi $a0,$a0,-1
+		move $a1,$t0
+	        j loop1
+
+ exit: move $t3,$t0
+  j ka
+ exit1: move $t3,$zero
+ka: 
+li $v0,10
+syscall
