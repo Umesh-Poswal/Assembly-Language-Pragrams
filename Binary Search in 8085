@@ -1,0 +1,43 @@
+
+;<Program title>
+
+jmp start
+
+;data
+
+
+;code
+start: nop
+mvi b,1          ; index of first no. given to b
+mvi c,15         ; index of last no. given to c
+mvi e,50         ; no. to be found 
+mvi d,0          ; d will count no. of comparision made, initialised to zero
+loop: mov a,c 
+inr d            ; whenevr we enter the loop comparions made shud increse by 1
+cmp b
+jc exit          ; if b is greater than c, exit
+ add b           ; finding b+a, i.e b+c
+rrc              ; doing right shift, i.e (b+c)/2
+                  ; a= (b+c)/2
+mov l,a          ; l is having mid value i.e (b+c)/2
+mov a,m          ; a has value at location l
+cmp e            ; comparing e with mid value
+jz done          ; if equal (found) then done
+jc small         ; if a is smaller than e, jump to small
+dcr l
+mov c,l          ; a is greater than e
+jmp loop
+
+small: inr l
+mov b,l
+jmp loop
+done: mov a,l
+sta 30
+mov a,d
+sta 31
+hlt
+exit: mvi a,00
+sta 30
+mov a,d
+sta 31
+hlt
