@@ -1,0 +1,26 @@
+; B and C are my counter now load into h the memory location
+; move into accumulator the memory data
+; increment H to next memory location
+; compare with next element
+; swap if less
+; increment H to next memory location   
+; SKIP to check end of loops
+; Counter C for inner loop and B for outer loop. 
+MVI B, 10  
+START: LXI H, 0000H
+       MVI C, 10            
+BACK: MOV A, M                
+               INX H                       
+               CMP M                
+               JC SKIP              
+               JZ SKIP               
+               MOV D, M
+               MOV M, A
+               DCX H
+               MOV M, D
+               INX H                       
+SKIP: DCR C                        
+               JNZ BACK               
+               DCR B                
+               JNZ START
+               HLT                     
